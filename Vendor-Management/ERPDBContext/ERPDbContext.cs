@@ -19,7 +19,7 @@ namespace Vendor_Management.VendorManagementContext
         public DbSet<Catalogue> Catalogue { get; set; }
         public DbSet<Customer> Customer { get; set; }
         public DbSet<Addresses> Addresses { get; set; }
-        public DbSet<CatalogueItems> CatalogueItems { get; set; }
+        public DbSet<LineItems> LineItems { get; set; }
         public DbSet<AddtionalInfo> AddtionalInfo { get; set; }
     }
 }

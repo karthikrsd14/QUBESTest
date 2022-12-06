@@ -7,19 +7,19 @@ namespace Vendor_Management.BussinessLogic
 {
     public class AddtionalInfoBl : IAddtionalInfoBl
     {
-        private readonly IAddtionalInfoBr mvendorRequestBr;
-        public AddtionalInfoBl(IAddtionalInfoBr ivendorRequestBr)
+        private readonly IAddtionalInfoBr mAddtionalInfoBr;
+        public AddtionalInfoBl(IAddtionalInfoBr iAddtionalInfoBr)
         {
-            mvendorRequestBr = ivendorRequestBr;    
+            mAddtionalInfoBr = iAddtionalInfoBr;    
         }
-        public async Task<string> Create(AddtionalInfoUpdateModel vendorRequestUpdateModel)
+        public async Task<string> Create(AddtionalInfoUpdateModel addtionalInfoUpdateModel)
         {
-          return  await  mvendorRequestBr.Create(vendorRequestUpdateModel);
+          return  await  mAddtionalInfoBr.Create(addtionalInfoUpdateModel);
         }
 
-        public async Task<string> Update(AddtionalInfoUpdateModel vendorRequestUpdateModel)
+        public async Task<string> Update(AddtionalInfoUpdateModel addtionalInfoUpdateModel)
         {
-          return await mvendorRequestBr.Update(vendorRequestUpdateModel);
+          return await mAddtionalInfoBr.Update(addtionalInfoUpdateModel);
         }
     }
 }

@@ -14,39 +14,39 @@ namespace Vendor_Management.BussinessRepository
         {
                 mERPDbContext = iERPDbContext;
         }
-        public async Task<string> Create(AddtionalInfoUpdateModel vendorRequestUpdateModel)
+        public async Task<string> Create(AddtionalInfoUpdateModel addtionalInfoUpdateModel)
         {
-            AddtionalInfo vendorRequest = new AddtionalInfo
+            AddtionalInfo addtionalInfoRequest = new AddtionalInfo
             {
-                AdditionalInfo = vendorRequestUpdateModel.AdditionalInfo,
-                AlternativeApprover = vendorRequestUpdateModel.AlternativeApprover,
-                CommentBox = vendorRequestUpdateModel.CommentBox,
-                PrimaryApprover = vendorRequestUpdateModel.PrimaryApprover,
-                RisedBy = vendorRequestUpdateModel.RisedBy,
-                VendorId = vendorRequestUpdateModel.VendorId,
+                AdditionalInfo = addtionalInfoUpdateModel.AdditionalInfo,
+                AlternativeApprover = addtionalInfoUpdateModel.AlternativeApprover,
+                CommentBox = addtionalInfoUpdateModel.CommentBox,
+                PrimaryApprover = addtionalInfoUpdateModel.PrimaryApprover,
+                RisedBy = addtionalInfoUpdateModel.RisedBy,
+                VendorId = addtionalInfoUpdateModel.VendorId,
                
             };
-         mERPDbContext.AddtionalInfo.Add(vendorRequest);
+         mERPDbContext.AddtionalInfo.Add(addtionalInfoRequest);
            await mERPDbContext.SaveChangesAsync();
 
-            return $"Created -{vendorRequest.Id}";
+            return $"Created -{addtionalInfoRequest.Id}";
         }
 
-        public async Task<string> Update(AddtionalInfoUpdateModel vendorRequestUpdateModel)
+        public async Task<string> Update(AddtionalInfoUpdateModel addtionalInfoUpdateModel)
         {
-            AddtionalInfo vendorRequest = new AddtionalInfo
+            AddtionalInfo addtionalInfoRequest = new AddtionalInfo
             {
-                AdditionalInfo = vendorRequestUpdateModel.AdditionalInfo,
-                AlternativeApprover = vendorRequestUpdateModel.AlternativeApprover,
-                CommentBox = vendorRequestUpdateModel.CommentBox,
-                PrimaryApprover = vendorRequestUpdateModel.PrimaryApprover,
-                RisedBy = vendorRequestUpdateModel.RisedBy,
-                VendorId = vendorRequestUpdateModel.VendorId,
+                AdditionalInfo = addtionalInfoUpdateModel.AdditionalInfo,
+                AlternativeApprover = addtionalInfoUpdateModel.AlternativeApprover,
+                CommentBox = addtionalInfoUpdateModel.CommentBox,
+                PrimaryApprover = addtionalInfoUpdateModel.PrimaryApprover,
+                RisedBy = addtionalInfoUpdateModel.RisedBy,
+                VendorId = addtionalInfoUpdateModel.VendorId,
             };
-            mERPDbContext.AddtionalInfo.Update(vendorRequest);
+            mERPDbContext.AddtionalInfo.Update(addtionalInfoRequest);
             await mERPDbContext.SaveChangesAsync();
 
-            return $"Update -{vendorRequest.Id}";
+            return $"Update -{addtionalInfoRequest.Id}";
         }
     }
 }

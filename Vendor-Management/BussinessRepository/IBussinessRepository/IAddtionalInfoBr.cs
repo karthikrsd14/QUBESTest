@@ -5,8 +5,8 @@ namespace Vendor_Management.BussinessRepository.IBussinessRepository
 {
     public interface IAddtionalInfoBr
     {
-        Task<string> Create(AddtionalInfoUpdateModel vendorRequestUpdateModel);
-        Task<string> Update(AddtionalInfoUpdateModel vendorRequestUpdateModel);
+        Task<string> Create(AddtionalInfoUpdateModel addtionalInfoUpdateModel);
+        Task<string> Update(AddtionalInfoUpdateModel addtionalInfoUpdateModel);
         
     }
 }
