@@ -10,13 +10,13 @@ namespace Vendor_Management.Controllers
     [ApiController]
     public class VendorRequestController : ControllerBase
     {
-        private readonly IVendorRequestBl mVendorRequestBl;
-        public VendorRequestController(IVendorRequestBl iVendorRequestBl)
+        private readonly IAddtionalInfoBl mVendorRequestBl;
+        public VendorRequestController(IAddtionalInfoBl iVendorRequestBl)
         {
             mVendorRequestBl = iVendorRequestBl;    
         }
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] VendorRequestUpdateModel vendorRequestUpdateModel)
+        public async Task<IActionResult> Create([FromBody] AddtionalInfoUpdateModel vendorRequestUpdateModel)
         {
             var response=await mVendorRequestBl.Create(vendorRequestUpdateModel);
             if (response != null)
@@ -26,7 +26,7 @@ namespace Vendor_Management.Controllers
             return NoContent();    
         }
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] VendorRequestUpdateModel vendorRequestUpdateModel)
+        public async Task<IActionResult> Update([FromBody] AddtionalInfoUpdateModel vendorRequestUpdateModel)
         {
             var response = await mVendorRequestBl.Update(vendorRequestUpdateModel);
             if (response != null)

@@ -2,7 +2,7 @@
 
 namespace Vendor_Management.Model
 {
-    public class VendorRequest
+    public class AddtionalInfo
     {
         public int Id { get; set; }
         public string AdditionalInfo { get; set; }

@@ -12,6 +12,7 @@ using Vendor_Management.Model.Enum;
 using Vendor_Management.Request;
 using Vendor_Management.Response;
 using Vendor_Management.VendorManagementContext;
+using Type = Vendor_Management.Model.Enum.Type;
 
 namespace Vendor_Management.BussinessRepository
 {
@@ -89,7 +90,7 @@ namespace Vendor_Management.BussinessRepository
 
                                                                    where vendor.Id == kyc.UserId && kyc.Type == (int)Type.Vendor
                                                                    select new VendorResponseModel
-                                                                   { 
+                                                                   {
                                                                        VendorId = vendor.Id,
                                                                        Company = vendor.Company,
                                                                        EnrollmentDate = vendor.EnrollmentDate,
@@ -211,47 +212,46 @@ namespace Vendor_Management.BussinessRepository
             return $"Updated -{vendor.Id}";
         }
     }
-    public void UploadInvoiceFiles(List<IFormFile> files, string LeadID, string CreatedBy, string Dealercode, long invoiceId)
-    {
-        try
-        {
-            MemoryStream memorystream;
-            //var target = _hostingEnvironment.ContentRootPath + "Invoice\\";
-            // var target = _hostingEnvironment.WebRootPath + "Invoice\\";
-            var target = Path.Combine("C:\test");
-            Directory.CreateDirectory(target);
-            files.ForEach(async file =>
-            {
-                var filename = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                var filePath = Path.Combine(target, filename);
-                var invoicedetails = new Vendor()
-                {
-                    
-                };
-                _context.Invoice.Add(invoicedetails);
-                _context.SaveChanges();
-                var stream = new FileStream(filePath, FileMode.Create);
-                using (var stream1 = new MemoryStream())
-                {
-                    file.CopyTo(stream);
-                    memorystream = new MemoryStream(stream1.ToArray());
-                }
-                byte[] bytes = memorystream.ToArray();
-                target = Convert.ToBase64String(bytes);
-                //target.ProfileID = ImageUpload.ProfileID;
-                //image.Status = true;
-                //upImages.Add(imageAdded);
+    //public void UploadInvoiceFiles(List<IFormFile> files, string LeadID, string CreatedBy, string Dealercode, long invoiceId)
+    //{
+    //    try
+    //    {
+    //        MemoryStream memorystream;
+    //        //var target = _hostingEnvironment.ContentRootPath + "Invoice\\";
+    //        // var target = _hostingEnvironment.WebRootPath + "Invoice\\";
+    //        var target = Path.Combine("C:\test");
+    //        Directory.CreateDirectory(target);
+    //        files.ForEach(async file =>
+    //        {
+    //            var filename = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+    //            var filePath = Path.Combine(target, filename);
+    //            var invoicedetails = new Vendor()
+    //            {
+
+    //            };
+    //            _context.Invoice.Add(invoicedetails);
+    //            _context.SaveChanges();
+    //            var stream = new FileStream(filePath, FileMode.Create);
+    //            using (var stream1 = new MemoryStream())
+    //            {
+    //                file.CopyTo(stream);
+    //                memorystream = new MemoryStream(stream1.ToArray());
+    //            }
+    //            byte[] bytes = memorystream.ToArray();
+    //            target = Convert.ToBase64String(bytes);
+    //            //target.ProfileID = ImageUpload.ProfileID;
+    //            //image.Status = true;
+    //            //upImages.Add(imageAdded);
 
 
 
-            });
-        }
-        catch (Exception ex)
-        {
+    //        });
+    //    }
+    //    catch (Exception ex)
+    //    {
 
 
 
-            throw new CustomExpection(Convert.ToString(string.IsNullOrEmpty(ex.Message) ? ex.InnerException.Message : ex.Message), ex.StackTrace, assemblyName, ApplicationLogId.LMS_DocumentControllerId);
-        }
-    }
+    //    throw new CustomExpection(Convert.ToString(string.IsNullOrEmpty(ex.Message) ? ex.InnerException.Message : ex.Message), ex.StackTrace, assemblyName, ApplicationLogId.LMS_DocumentControllerId);
+    //}}
 }

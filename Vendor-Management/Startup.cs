@@ -41,8 +41,8 @@ namespace Vendor_Management
             services.AddTransient<ICustomerBr, CustomerBr>();
             services.AddTransient<ICatalogueItemBr, CatalogueItemBr>();
             services.AddTransient<ICatalogueItemBl, CatalogueItemBl>();
-            services.AddTransient<IVendorRequestBr, VendorRequestBr>();
-            services.AddTransient<IVendorRequestBl, VendorRequestBl>();
+            services.AddTransient<IAddtionalInfoBr, AddtionalInfoBr>();
+            services.AddTransient<IAddtionalInfoBl, AddtionalInfoBl>();
 
             #endregion
 

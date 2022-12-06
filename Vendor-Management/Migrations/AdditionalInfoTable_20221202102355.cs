@@ -3,7 +3,7 @@
 namespace Vendor_Management.Migrations
 {
     [Migration(20221202102355)]
-    public class AddVendorRquestTable_20221202102355 : Migration
+    public class AdditionalInfoTable_20221202102355 : Migration
     {
         public override void Down()
         {

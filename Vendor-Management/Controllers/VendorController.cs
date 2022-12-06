@@ -76,28 +76,13 @@ namespace Vendor_Management.Controllers
             }
             return NoContent();
         }
-        [HttpPost(nameof(UploadInvoice))]
-        public IActionResult UploadInvoice([Required] List<IFormFile> formFiles, [Required] string LeadID, [Required] string CreatedBy, [Required] string Dealercode, long invoiceId)
-        {
-            //try
-            //{
-                mVendorBl.UploadInvoiceFiles(formFiles, LeadID, CreatedBy, Dealercode, invoiceId);
+        //[HttpPost(nameof(UploadInvoice))]
+        //public IActionResult UploadInvoice([Required] List<IFormFile> formFiles, [Required] string LeadID, [Required] string CreatedBy, [Required] string Dealercode, long invoiceId)
+        //{
+        //        mVendorBl.UploadInvoiceFiles(formFiles, LeadID, CreatedBy, Dealercode, invoiceId);
 
-
-
-                return Ok(new { formFiles.Count });
-            //}
-            //catch (CustomExpection ex)
-            //{
-            //    throw ex;
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw new CustomExpection(Convert.ToString(string.IsNullOrEmpty(ex.Message) ? ex.InnerException.Message : ex.Message),
-            //        ex.StackTrace,
-            //        assemblyName,
-            //        ApplicationLogId.LMS_DocumentControllerId);
-            //}
-        }
+        //        return Ok(new { formFiles.Count });
+            
+        //}
     }
 }

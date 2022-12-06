@@ -1,6 +1,6 @@
 ﻿namespace Vendor_Management.Request
 {
-    public class VendorRequestUpdateModel
+    public class AddtionalInfoUpdateModel
     {
         public string AdditionalInfo { get; set; }
         public string CommentBox { get; set; }

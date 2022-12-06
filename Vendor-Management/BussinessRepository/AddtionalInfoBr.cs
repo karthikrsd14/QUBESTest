@@ -6,17 +6,17 @@ using Vendor_Management.VendorManagementContext;
 
 namespace Vendor_Management.BussinessRepository
 {
-    public class VendorRequestBr : IVendorRequestBr
+    public class AddtionalInfoBr : IAddtionalInfoBr
     {
         private readonly ERPDbContext mERPDbContext;
 
-        public VendorRequestBr(ERPDbContext iERPDbContext)
+        public AddtionalInfoBr(ERPDbContext iERPDbContext)
         {
                 mERPDbContext = iERPDbContext;
         }
-        public async Task<string> Create(VendorRequestUpdateModel vendorRequestUpdateModel)
+        public async Task<string> Create(AddtionalInfoUpdateModel vendorRequestUpdateModel)
         {
-            VendorRequest vendorRequest = new VendorRequest
+            AddtionalInfo vendorRequest = new AddtionalInfo
             {
                 AdditionalInfo = vendorRequestUpdateModel.AdditionalInfo,
                 AlternativeApprover = vendorRequestUpdateModel.AlternativeApprover,
@@ -26,15 +26,15 @@ namespace Vendor_Management.BussinessRepository
                 VendorId = vendorRequestUpdateModel.VendorId,
                
             };
-         mERPDbContext.VendorRequest.Add(vendorRequest);
+         mERPDbContext.AddtionalInfo.Add(vendorRequest);
            await mERPDbContext.SaveChangesAsync();
 
             return $"Created -{vendorRequest.Id}";
         }
 
-        public async Task<string> Update(VendorRequestUpdateModel vendorRequestUpdateModel)
+        public async Task<string> Update(AddtionalInfoUpdateModel vendorRequestUpdateModel)
         {
-            VendorRequest vendorRequest = new VendorRequest
+            AddtionalInfo vendorRequest = new AddtionalInfo
             {
                 AdditionalInfo = vendorRequestUpdateModel.AdditionalInfo,
                 AlternativeApprover = vendorRequestUpdateModel.AlternativeApprover,
@@ -43,7 +43,7 @@ namespace Vendor_Management.BussinessRepository
                 RisedBy = vendorRequestUpdateModel.RisedBy,
                 VendorId = vendorRequestUpdateModel.VendorId,
             };
-            mERPDbContext.VendorRequest.Update(vendorRequest);
+            mERPDbContext.AddtionalInfo.Update(vendorRequest);
             await mERPDbContext.SaveChangesAsync();
 
             return $"Update -{vendorRequest.Id}";

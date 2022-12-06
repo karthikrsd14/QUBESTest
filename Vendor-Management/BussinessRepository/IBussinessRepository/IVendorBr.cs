@@ -15,7 +15,7 @@ namespace Vendor_Management.BussinessRepository.IBussinessRepository
         Task<BankDetailsResponseModel> GetBankDeteailsById(int userId);
         Task<List<VendorResponseModel>> GetAllByCriteria(string? name);
         Task<string> Update(VendorUpdateRequestModel vendorUpdateRequestModel);
-        public void UploadInvoiceFiles(List<IFormFile> files, string LeadID, string CreatedBy, string Dealercode, long invoiceId);
+       // public void UploadInvoiceFiles(List<IFormFile> files, string LeadID, string CreatedBy, string Dealercode, long invoiceId);
 
     }
 }
