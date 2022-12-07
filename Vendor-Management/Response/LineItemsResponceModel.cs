@@ -10,6 +10,9 @@
         public int GST { get; set; }
         public int Amount { get; set; }
         public string Status { get; set; }
-        public int RequestVendorId { get; set; }
+        public string PaymentTerms { get; set; }
+
+        public int RequestId { get; set; }
     }
+  
 }

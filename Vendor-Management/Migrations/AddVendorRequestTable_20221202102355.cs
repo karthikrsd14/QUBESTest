@@ -3,13 +3,13 @@
 namespace Vendor_Management.Migrations
 {
     [Migration(20221202102355)]
-    public class AAddtionalInfoTable_20221202102355 : Migration
+    public class AddVendorRequestTable_20221202102355 : Migration
     {
         public override void Down()
         {
             Delete.ForeignKey().FromTable("AddtionalInfo").ForeignColumn("VendorId").ToTable("Vendor").PrimaryColumn("Id");
 
-            Delete.Table("VendorRequest");
+            Delete.Table("AddtionalInfo");
         }
 
         public override void Up()

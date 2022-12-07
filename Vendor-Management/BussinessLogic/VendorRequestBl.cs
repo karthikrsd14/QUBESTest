@@ -5,19 +5,19 @@ using Vendor_Management.Request;
 
 namespace Vendor_Management.BussinessLogic
 {
-    public class AddtionalInfoBl : IAddtionalInfoBl
+    public class VendorRequestBl : IVendorRequestBl
     {
-        private readonly IAddtionalInfoBr mAddtionalInfoBr;
-        public AddtionalInfoBl(IAddtionalInfoBr iAddtionalInfoBr)
+        private readonly IVendorRequestBr mAddtionalInfoBr;
+        public VendorRequestBl(IVendorRequestBr iAddtionalInfoBr)
         {
             mAddtionalInfoBr = iAddtionalInfoBr;    
         }
-        public async Task<string> Create(AddtionalInfoUpdateModel addtionalInfoUpdateModel)
+        public async Task<string> Create(VendorRequestUpdateRequestModel addtionalInfoUpdateModel)
         {
           return  await  mAddtionalInfoBr.Create(addtionalInfoUpdateModel);
         }
 
-        public async Task<string> Update(AddtionalInfoUpdateModel addtionalInfoUpdateModel)
+        public async Task<string> Update(VendorRequestUpdateRequestModel addtionalInfoUpdateModel)
         {
           return await mAddtionalInfoBr.Update(addtionalInfoUpdateModel);
         }

@@ -23,7 +23,9 @@ namespace Vendor_Management.Migrations
                .WithColumn("GST").AsInt32()
                .WithColumn("Amount").AsInt32()
                 .WithColumn("Status").AsString(20).NotNullable()
-               .WithColumn("RequestVendorId").AsInt32().NotNullable();
+               .WithColumn("PaymentTerms").AsInt32().NotNullable()
+              .WithColumn("SubTotal").AsInt32().NotNullable()
+            .WithColumn("RequestId").AsInt32().NotNullable();
         }
        
     }

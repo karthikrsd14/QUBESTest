@@ -28,10 +28,11 @@ namespace Vendor_Management.BussinessRepository
                
                 ItemsId = lineItemsUpdateRequestModel.ItemsId,
                 Quantity = lineItemsUpdateRequestModel.Quantity,
-                RequestVendorId = lineItemsUpdateRequestModel.RequestVendorId,
+                PaymentTerms = lineItemsUpdateRequestModel.PaymentTerms,
                 Status = lineItemsUpdateRequestModel.Status,
                 GST=lineItemsUpdateRequestModel.GST,
-                
+               
+
             };
             mERPDbContext.Add(lineItems);
             await mERPDbContext.SaveChangesAsync();
@@ -48,22 +49,35 @@ namespace Vendor_Management.BussinessRepository
                                                                              
                                                                               where lineItems.ItemsId == catalogue.Id
                                                                               select new LineItemsResponceModel
-                                                                                 {
+                                                                              {
                                                                                      Sno = lineItems.Id,
                                                                                      Quantity=lineItems.Quantity,
                                                                                      ItemsId = mERPDbContext.Catalogue.Where(x => x.Id == lineItems.ItemsId).Select(x => x.Meterial).FirstOrDefault(),
                                                                                      Amount = mERPDbContext.Catalogue.Where(x=>x.Id==lineItems.ItemsId).Select(x=>x.Rate* lineItems.Quantity).FirstOrDefault(),
                                                                                      Rate= mERPDbContext.Catalogue.Where(x => x.Id == lineItems.ItemsId).Select(x => x.Rate).FirstOrDefault(),
-                                                                                     RequestVendorId = lineItems.RequestVendorId,
+                                                                                     PaymentTerms = ((PaymentTreams)lineItems.PaymentTerms).ToString(),
                                                                                      Status = lineItems.Status,
                                                                                      GST=lineItems.GST,
-                                                                                     UOM= mERPDbContext.Catalogue.Where(x => x.Id == lineItems.ItemsId).Select(x=>x.UOM.ToString()).FirstOrDefault(),
-                                                                                     //UOM= mERPDbContext.Catalogue.Where(x => x.Id == lineItems.ItemsId).Select(x => x.UOM.ToString()).FirstOrDefault(),
-                                                                                 }).OrderBy(x => x.Sno).ToListAsync();
+                                                                                     UOM= mERPDbContext.Catalogue.Where(x => x.Id == lineItems.ItemsId).Select(x=>((UOM)catalogue.UOM).ToString()).FirstOrDefault(),
+                                                                                     //SubTotal=mERPDbContext.LineItems.Select(x => x.Amount).Sum().ToString(),
+                                                                                                                                                                       
+                                                                              }).OrderBy(x => x.Sno).ToListAsync();
 
-                                                                                 return catalogueItemResponceModel;
+                                                                              return catalogueItemResponceModel;
                                                                                                                                                    
         }
+
+        //public async Task<List<LineItemsGetSubTotalResponceModel>> GellSubTotal()
+        //{
+        //    List<LineItemsGetSubTotalResponceModel> GetAllSubTotal = await (from lineItems in mERPDbContext.LineItems
+        //                                                         select new LineItemsGetSubTotalResponceModel
+        //                                                         {
+        //                                                             SubTotal = mERPDbContext.LineItems.Sum(x => x.Amount).ToString(),
+
+        //                                                              }).ToListAsync();
+        //    return GetAllSubTotal;
+                                                         
+        //}
 
         public async Task<string> Update(LineItemsUpdateRequestModel lineItemsUpdateRequestModel)
         {
@@ -72,7 +86,7 @@ namespace Vendor_Management.BussinessRepository
                
                  ItemsId = lineItemsUpdateRequestModel.ItemsId,
                 Quantity = lineItemsUpdateRequestModel.Quantity,
-                RequestVendorId = lineItemsUpdateRequestModel.RequestVendorId,
+                PaymentTerms = lineItemsUpdateRequestModel.PaymentTerms,
                 Status = lineItemsUpdateRequestModel.Status,
                 GST = lineItemsUpdateRequestModel.GST,
             };

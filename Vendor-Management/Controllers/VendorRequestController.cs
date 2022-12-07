@@ -8,15 +8,15 @@ namespace Vendor_Management.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AdditionalInfoController : ControllerBase
+    public class VendorRequestController : ControllerBase
     {
-        private readonly IAddtionalInfoBl mAddtionalInfoBl;
-        public AdditionalInfoController(IAddtionalInfoBl iAddtionalInfoBl)
+        private readonly IVendorRequestBl mAddtionalInfoBl;
+        public VendorRequestController(IVendorRequestBl iAddtionalInfoBl)
         {
             mAddtionalInfoBl = iAddtionalInfoBl;    
         }
         [HttpPost("create-addinfo")]
-        public async Task<IActionResult> Create([FromBody] AddtionalInfoUpdateModel vendorRequestUpdateModel)
+        public async Task<IActionResult> Create([FromBody] VendorRequestUpdateRequestModel vendorRequestUpdateModel)
         {
             var response=await mAddtionalInfoBl.Create(vendorRequestUpdateModel);
             if (response != null)
@@ -26,7 +26,7 @@ namespace Vendor_Management.Controllers
             return NoContent();    
         }
         [HttpPut("Update-AdditionalInfo")]
-        public async Task<IActionResult> Update([FromBody] AddtionalInfoUpdateModel vendorRequestUpdateModel)
+        public async Task<IActionResult> Update([FromBody] VendorRequestUpdateRequestModel vendorRequestUpdateModel)
         {
             var response = await mAddtionalInfoBl.Update(vendorRequestUpdateModel);
             if (response != null)
