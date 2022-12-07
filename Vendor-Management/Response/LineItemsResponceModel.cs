@@ -11,8 +11,14 @@
         public int Amount { get; set; }
         public string Status { get; set; }
         public string PaymentTerms { get; set; }
-
         public int RequestId { get; set; }
+        public string AdditionalInfo { get; set; }
+        public string CommentBox { get; set; }
+        public string RisedBy { get; set; }
+        public int PrimaryApprover { get; set; }
+        public int AlternativeApprover { get; set; }
+
     }
-  
+
 }
+

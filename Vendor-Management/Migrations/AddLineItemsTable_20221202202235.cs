@@ -14,6 +14,7 @@ namespace Vendor_Management.Migrations
         
         public override void Up()
         {
+            
             Create.Table("LineItems")
                .WithColumn("Id").AsInt32().NotNullable().Identity().PrimaryKey()
                .WithColumn("ItemsId").AsInt32().NotNullable().ForeignKey("Catalogue", "Id")

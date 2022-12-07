@@ -12,7 +12,6 @@
         public string Status { get; set; }
         public int PaymentTerms { get; set; }
         public int SubTotal { get; set; }
-
         public int RequestId { get; set; }
     }
 }

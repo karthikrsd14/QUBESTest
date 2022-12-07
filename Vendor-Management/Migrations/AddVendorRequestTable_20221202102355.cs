@@ -7,14 +7,14 @@ namespace Vendor_Management.Migrations
     {
         public override void Down()
         {
-            Delete.ForeignKey().FromTable("AddtionalInfo").ForeignColumn("VendorId").ToTable("Vendor").PrimaryColumn("Id");
+            Delete.ForeignKey().FromTable("VendorRequest").ForeignColumn("VendorId").ToTable("Vendor").PrimaryColumn("Id");
 
-            Delete.Table("AddtionalInfo");
+            Delete.Table("VendorRequest");
         }
 
         public override void Up()
         {
-            Create.Table("AddtionalInfo")
+            Create.Table("VendorRequest")
                 .WithColumn("Id").AsInt32().NotNullable().Identity().PrimaryKey()
            .WithColumn("AdditionalInfo").AsString(60)
            .WithColumn("CommentBox").AsString(60)

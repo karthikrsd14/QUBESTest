@@ -39,10 +39,9 @@ namespace Vendor_Management
             services.AddTransient<ICatalogueBr, CatalogueBr>();
             services.AddTransient<ICustomerBl, CustomerBl>();
             services.AddTransient<ICustomerBr, CustomerBr>();
-            services.AddTransient<IVendorRequestBr, VendorRequestBr>();
-            services.AddTransient<IVendorRequestBl, VendorRequestBl>();
-            services.AddTransient<IVendorRequestBr, VendorRequestBr>();
-            services.AddTransient<IVendorRequestBl, VendorRequestBl>();
+            services.AddTransient<ILineItemsBl, LineItemsBl>();
+            services.AddTransient<ILineItemsBr, LineItemsBr>();
+           
             #endregion
 
             // Cors policy
