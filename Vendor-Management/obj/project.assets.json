@@ -3160,11 +3160,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\LTP-7\\OneDrive\\Desktop\\DataSheet\\ERB\\Vendor-Management\\ERP.csproj",
+      "projectUniqueName": "C:\\Users\\LTP-7\\OneDrive\\Desktop\\ERP\\ERPApi\\ERP\\Vendor-Management\\ERP.csproj",
       "projectName": "ERP",
-      "projectPath": "C:\\Users\\LTP-7\\OneDrive\\Desktop\\DataSheet\\ERB\\Vendor-Management\\ERP.csproj",
+      "projectPath": "C:\\Users\\LTP-7\\OneDrive\\Desktop\\ERP\\ERPApi\\ERP\\Vendor-Management\\ERP.csproj",
       "packagesPath": "C:\\Users\\LTP-7\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\LTP-7\\OneDrive\\Desktop\\DataSheet\\ERB\\Vendor-Management\\obj\\",
+      "outputPath": "C:\\Users\\LTP-7\\OneDrive\\Desktop\\ERP\\ERPApi\\ERP\\Vendor-Management\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\LTP-7\\AppData\\Roaming\\NuGet\\NuGet.Config",
