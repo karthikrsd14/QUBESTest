@@ -20,6 +20,8 @@ namespace Vendor_Management.Migrations
                 .WithColumn("Meterial").AsString(50).NotNullable()
                 .WithColumn("UOM").AsInt32().NotNullable()
                 .WithColumn("Rate").AsInt32().NotNullable()
+                .WithColumn("IsActive").AsBoolean()
+                .WithColumn("GST").AsInt32().NotNullable()
                 .WithColumn("Currency").AsString(20).NotNullable();
         }
     }

@@ -34,5 +34,9 @@ namespace Vendor_Management.BussinessLogic
         {
             return await mCatalogueBr.Update(catalogueRequestModel);
         }
+        public async Task<bool> DeleteCatalouge(int Id)
+        {
+            return await mCatalogueBr.DeleteCatalouge(Id);
+        }
     }
 }

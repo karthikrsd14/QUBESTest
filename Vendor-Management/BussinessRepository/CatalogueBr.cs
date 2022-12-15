@@ -29,12 +29,24 @@ namespace Vendor_Management.BussinessRepository
                 UOM = catalogueRequestModel.UOM,
                 Rate = catalogueRequestModel.Rate,
                 Currency = catalogueRequestModel.Currency,
+                GST= catalogueRequestModel.GST,
             };
             mERPDbContext.Catalogue.Add(catalogue);
             await mERPDbContext.SaveChangesAsync();
             return $"Created - {catalogue.Id}";
         }
-
+        public async Task<bool> DeleteCatalouge(int Id)
+        {
+            {
+                Catalogue catalogues = await mERPDbContext.Catalogue.Where(x => x.Id == Id).Select(x => x).FirstOrDefaultAsync();
+                {
+                    catalogues.IsActive = false;
+                }
+                mERPDbContext.Catalogue.Remove(catalogues);
+                await mERPDbContext.SaveChangesAsync();
+                return true;
+            }
+        }
         public async Task<List<CatalogueResponseModel>> GetCatalougeByCriteria(int userId, string? criteria)
         {
             List<CatalogueResponseModel> catalogueListBycriteria = await GetCatalougeByUserId(userId);
@@ -47,6 +59,8 @@ namespace Vendor_Management.BussinessRepository
 
         public async Task<List<CatalogueResponseModel>> GetCatalougeByUserId(int userId)
         {
+            
+           
             List<CatalogueResponseModel> catalogueList = await (from catalogue in mERPDbContext.Catalogue
                                                                 where catalogue.UserId == userId
                                                                 select new CatalogueResponseModel
@@ -56,27 +70,29 @@ namespace Vendor_Management.BussinessRepository
                                                                     MeterialId = catalogue.MeterialId,
                                                                     Meterial = catalogue.Meterial,
                                                                     UOM = ((UOM)catalogue.UOM).ToString(),
-                                                                    Rate = catalogue.Rate,
                                                                     Currency = catalogue.Currency,
+                                                                    Rate = (catalogue.Rate),
+                                                                    GST =(catalogue.GST).ToString(),
                                                                 }).ToListAsync();
             return catalogueList;
         }
 
         public async Task<string> Update(CatalogueRequestModel catalogueRequestModel)
         {
-            Catalogue catalogue = new Catalogue
+            Catalogue catalogue = mERPDbContext.Catalogue.Where(x=>x.Id==catalogueRequestModel.Id).FirstOrDefault();    
             {
-                Id = catalogueRequestModel.Id,
-                UserId = catalogueRequestModel.UserId,
-                MeterialId = catalogueRequestModel.MeterialId,
-                Meterial = catalogueRequestModel.Meterial,
-                UOM = catalogueRequestModel.UOM,
-                Rate = catalogueRequestModel.Rate,
-                Currency = catalogueRequestModel.Currency,
+              catalogue.Id = catalogueRequestModel.Id;
+                catalogue.UserId = catalogueRequestModel.UserId;
+                catalogue.MeterialId = catalogueRequestModel.MeterialId;
+                catalogue.Meterial = catalogueRequestModel.Meterial;
+                catalogue.UOM = catalogueRequestModel.UOM;
+                catalogue.Rate = catalogueRequestModel.Rate;
+                catalogue.Currency = catalogueRequestModel.Currency;
+                catalogue.GST = catalogueRequestModel.GST; 
             };
             mERPDbContext.Catalogue.Update(catalogue);
             await mERPDbContext.SaveChangesAsync();
-            return $"Updated - {catalogue.Id}";
+            return $"Updated";
         }
     }
 }

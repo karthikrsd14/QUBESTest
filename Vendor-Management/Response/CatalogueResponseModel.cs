@@ -9,5 +9,6 @@
         public string UOM { get; set; }
         public int Rate { get; set; }
         public string Currency { get; set; }
+        public string GST { get; set; }
     }
 }

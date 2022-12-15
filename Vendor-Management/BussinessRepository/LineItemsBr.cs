@@ -31,6 +31,11 @@ namespace Vendor_Management.BussinessRepository
             {
                 try
                 {
+                    var sta = await mERPDbContext.Catalogue.Where(x => x.Id == lineItemsUpdateRequestModel.ItemsId).FirstOrDefaultAsync();
+                    if (sta == null)
+                    {
+                        return "Don't There Catalogue Items";
+                    }
                     LineItems lineItems = new LineItems
                     {
 
@@ -38,14 +43,16 @@ namespace Vendor_Management.BussinessRepository
                         Quantity = lineItemsUpdateRequestModel.Quantity,
                         PaymentTerms = lineItemsUpdateRequestModel.PaymentTerms,
                         Status = lineItemsUpdateRequestModel.Status,
-                        GST = lineItemsUpdateRequestModel.GST,
+                        RequestId=lineItemsUpdateRequestModel.RequestId,
+                       
                     };
                     mERPDbContext.LineItems.Add(lineItems);
                     await mERPDbContext.SaveChangesAsync();
 
-                    VendorRequest vendorRequest = new VendorRequest
+                        VendorRequest vendorRequest = new VendorRequest
                     {
 
+                       
                         Id=lineItems.Id,
                         AdditionalInfo = lineItemsUpdateRequestModel.AdditionalInfo,
                         AlternativeApprover = lineItemsUpdateRequestModel.AlternativeApprover,
@@ -62,6 +69,7 @@ namespace Vendor_Management.BussinessRepository
                 }
                 catch (Exception ex)
                 {
+
                     transaction.Rollback();
                     return "Fail to Create";
                 }
@@ -91,7 +99,7 @@ namespace Vendor_Management.BussinessRepository
                                                                                  Rate = mERPDbContext.Catalogue.Where(x => x.Id == lineItems.ItemsId).Select(x => x.Rate).FirstOrDefault(),
                                                                                  PaymentTerms = ((PaymentTreams)lineItems.PaymentTerms).ToString(),
                                                                                  Status = lineItems.Status,
-                                                                                 GST = lineItems.GST,
+                                                                                 GST = mERPDbContext.Catalogue.Where(x => x.Id == lineItems.ItemsId).Select(x => x.GST).FirstOrDefault(),
                                                                                  UOM = mERPDbContext.Catalogue.Where(x => x.Id == lineItems.ItemsId).Select(x => ((UOM)catalogue.UOM).ToString()).FirstOrDefault(),
                                                                                  RequestId=lineItems.RequestId,
                                                                                  AdditionalInfo=vendorrequest.AdditionalInfo,
@@ -99,6 +107,7 @@ namespace Vendor_Management.BussinessRepository
                                                                                  CommentBox=vendorrequest.CommentBox,
                                                                                  PrimaryApprover=vendorrequest.PrimaryApprover,
                                                                                  RisedBy = vendorrequest.RisedBy    
+                                                                                 
                                                                                  
                                                                                  
 
@@ -124,7 +133,7 @@ namespace Vendor_Management.BussinessRepository
                         lineItems.Quantity = lineItemsUpdateRequestModel.Quantity;
                         lineItems.PaymentTerms = lineItemsUpdateRequestModel.PaymentTerms;
                         lineItems.Status = lineItemsUpdateRequestModel.Status;
-                        lineItems.GST = lineItemsUpdateRequestModel.GST;
+                   
                         lineItems.RequestId = lineItemsUpdateRequestModel.RequestId;
                     };
                     mERPDbContext.LineItems.Update(lineItems);
@@ -149,7 +158,7 @@ namespace Vendor_Management.BussinessRepository
                 catch (Exception ex)
                 {
                     transaction.Rollback();
-                    return "Fail to Create";
+                    return "Fail to Update";
                 }
             }
         }

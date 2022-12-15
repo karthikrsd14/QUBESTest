@@ -14,6 +14,16 @@ namespace Vendor_Management.Controllers
         {
             mCatalogueBl = iCatalogueBl;
         }
+        [HttpDelete("deletecatelouge")]
+        public async Task<IActionResult> DeleteCatalouge(int Id)
+        {
+            var response= await mCatalogueBl.DeleteCatalouge(Id);
+            if (response!= null)
+            {
+                return Ok(response);
+            }
+            return NoContent();
+        }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CatalogueRequestModel catalogueRequestModel)

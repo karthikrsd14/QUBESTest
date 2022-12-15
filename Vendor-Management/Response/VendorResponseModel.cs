@@ -14,7 +14,6 @@ namespace Vendor_Management.Response
         public int PostalCode { get; set; }
         public string WebSite { get; set; }
         public string RegisteredAddress { get; set; }
-        public int VendorRepId { get; set; }
         public string Name { get; set; }
         public string Designation { get; set; }
         public string PrimaryEmail { get; set; }
@@ -25,7 +24,6 @@ namespace Vendor_Management.Response
         public string ManagerEmail { get; set; }
         public string Department { get; set; }
         public string ManagerContactNumber { get; set; }
-        public int KYCId { get; set; }
         public string PanNumber { get; set; }
         public string GSTRegistrationNumber { get; set; }
         public string VAT { get; set; }

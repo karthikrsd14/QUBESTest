@@ -14,6 +14,6 @@ namespace Vendor_Management.Response
         public string BranchName { get; set; }
         public string UPIId { get; set; }
         public string  Type { get; set; }
-        public string BankDocumentUpload { get; set; }
+        
     }
 }

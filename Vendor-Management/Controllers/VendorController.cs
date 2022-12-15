@@ -66,7 +66,7 @@ namespace Vendor_Management.Controllers
             return NoContent();
         }
 
-        [HttpPut]
+        [HttpPut("Update/vendorId")]
         public async Task<IActionResult> Update([FromBody] VendorUpdateRequestModel vendorUpdateRequestModel)
         {
             var response = await mVendorBl.Update(vendorUpdateRequestModel);
@@ -76,13 +76,6 @@ namespace Vendor_Management.Controllers
             }
             return NoContent();
         }
-        //[HttpPost(nameof(UploadInvoice))]
-        //public IActionResult UploadInvoice([Required] List<IFormFile> formFiles, [Required] string LeadID, [Required] string CreatedBy, [Required] string Dealercode, long invoiceId)
-        //{
-        //        mVendorBl.UploadInvoiceFiles(formFiles, LeadID, CreatedBy, Dealercode, invoiceId);
-
-        //        return Ok(new { formFiles.Count });
-            
-        //}
+       
     }
 }

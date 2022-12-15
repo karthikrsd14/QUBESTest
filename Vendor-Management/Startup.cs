@@ -1,3 +1,4 @@
+using ERB.BusinessLogics.IBusinessLogic;
 using FluentMigrator.Runner;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -41,7 +42,9 @@ namespace Vendor_Management
             services.AddTransient<ICustomerBr, CustomerBr>();
             services.AddTransient<ILineItemsBl, LineItemsBl>();
             services.AddTransient<ILineItemsBr, LineItemsBr>();
-           
+            services.AddTransient<IUserBl, UserBl>();
+            services.AddTransient<IUserBr, UserBr>();
+
             #endregion
 
             // Cors policy
@@ -59,7 +62,7 @@ namespace Vendor_Management
             #endregion
 
             services.AddDbContext<ERPDbContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("ERPDB")));
-            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name; 
             services.AddLogging(c => c.AddFluentMigratorConsole())
                      .AddFluentMigratorCore()
                      .ConfigureRunner(c => c
@@ -95,6 +98,7 @@ namespace Vendor_Management
             {
                 endpoints.MapControllers();
             });
+            // my code
         }
     }
 }

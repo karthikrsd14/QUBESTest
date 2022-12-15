@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,60 +26,74 @@ namespace Vendor_Management.BussinessRepository
         }
         public async Task<string> Create(VendorRequestModel vendorRequestModel)
         {
-            Vendor vendor = new Vendor
+            using (IDbContextTransaction transaction = mERPDbContext.Database.BeginTransaction())
             {
-                CategoryId = vendorRequestModel.CategoryId,
-                Company = vendorRequestModel.Company,
-                CountryId = vendorRequestModel.CountryId,
-                StateId = vendorRequestModel.StateId,
-                City = vendorRequestModel.City,
-                PostalCode = vendorRequestModel.PostalCode,
-                WebSite = vendorRequestModel.WebSite,
-                RegisteredAddress = vendorRequestModel.RegisteredAddress,
-                EnrollmentDate = vendorRequestModel.EnrollmentDate,
-            };
-            mERPDbContext.Vendor.Add(vendor);
-            await mERPDbContext.SaveChangesAsync();
+                try
+                {
+                    Vendor vendor = new Vendor
+                    {
 
-            VendorRepDetails vendorRepDetails = new VendorRepDetails
-            {
-                Name = vendorRequestModel.Name,
-                Designation = vendorRequestModel.Designation,
-                Department = vendorRequestModel.Department,
-                PrimaryEmail = vendorRequestModel.PrimaryEmail,
-                PrimaryContactNumber = vendorRequestModel.PrimaryContactNumber,
-                AlternativeEmail = vendorRequestModel.AlternativeEmail,
-                AlternativeContactNumber = vendorRequestModel.AlternativeContactNumber,
-                ReportingHeadName = vendorRequestModel.ReportingHeadName,
-                ManagerEmail = vendorRequestModel.ManagerEmail,
-                ManagerContactNumber = vendorRequestModel.ManagerContactNumber,
-                VendorId = vendor.Id,
-            };
-            mERPDbContext.VendorRepDetails.Add(vendorRepDetails);
-            await mERPDbContext.SaveChangesAsync();
+                        CategoryId = vendorRequestModel.CategoryId,
+                        Company = vendorRequestModel.Company,
+                        CountryId = vendorRequestModel.CountryId,
+                        StateId = vendorRequestModel.StateId,
+                        City = vendorRequestModel.City,
+                        PostalCode = vendorRequestModel.PostalCode,
+                        WebSite = vendorRequestModel.WebSite,
+                        RegisteredAddress = vendorRequestModel.RegisteredAddress,
+                        EnrollmentDate = vendorRequestModel.EnrollmentDate,
+                    };
+                    mERPDbContext.Vendor.Add(vendor);
+                    await mERPDbContext.SaveChangesAsync();
 
-            KYC kYC = new KYC
-            {
-                PanNumber = vendorRequestModel.PanNumber,
-                GSTRegistrationNumber = vendorRequestModel.GSTRegistrationNumber,
-                VAT = vendorRequestModel.VAT,
-                SSIRegistration = vendorRequestModel.SSIRegistration,
-                BankName = vendorRequestModel.BankName,
-                BranchName = vendorRequestModel.Branch,
-                AccountNumber = vendorRequestModel.AccountNumber,
-                Name = vendorRequestModel.UserName,
-                IFSCCode = vendorRequestModel.IFSCCode,
-                UPIId = vendorRequestModel.UPIId,
-                Reference = vendorRequestModel.Reference,
-                UserId = vendor.Id,
-                Type = vendorRequestModel.Type,
-            };
-            mERPDbContext.KYC.Add(kYC);
-            await mERPDbContext.SaveChangesAsync();
+                    VendorRepDetails vendorRepDetails = new VendorRepDetails
+                    {
+                        Name = vendorRequestModel.Name,
+                        Designation = vendorRequestModel.Designation,
+                        Department = vendorRequestModel.Department,
+                        PrimaryEmail = vendorRequestModel.PrimaryEmail,
+                        PrimaryContactNumber = vendorRequestModel.PrimaryContactNumber,
+                        AlternativeEmail = vendorRequestModel.AlternativeEmail,
+                        AlternativeContactNumber = vendorRequestModel.AlternativeContactNumber,
+                        ReportingHeadName = vendorRequestModel.ReportingHeadName,
+                        ManagerEmail = vendorRequestModel.ManagerEmail,
+                        ManagerContactNumber = vendorRequestModel.ManagerContactNumber,
+                        VendorId = vendor.Id,
+                    };
+                    mERPDbContext.VendorRepDetails.Add(vendorRepDetails);
+                    await mERPDbContext.SaveChangesAsync();
 
-            return $"Created -{vendor.Id}";
+
+                    KYC kYC = new KYC
+                    {
+                        PanNumber = vendorRequestModel.PanNumber,
+                        GSTRegistrationNumber = vendorRequestModel.GSTRegistrationNumber,
+                        VAT = vendorRequestModel.VAT,
+                        SSIRegistration = vendorRequestModel.SSIRegistration,
+                        BankName = vendorRequestModel.BankName,
+                        BranchName = vendorRequestModel.Branch,
+                        AccountNumber = vendorRequestModel.AccountNumber,
+                        Name = vendorRequestModel.UserName,
+                        IFSCCode = vendorRequestModel.IFSCCode,
+                        UPIId = vendorRequestModel.UPIId,
+                        Reference = vendorRequestModel.Reference,
+                        UserId = vendor.Id,
+                        Type = vendorRequestModel.Type,
+                    };
+                    mERPDbContext.KYC.Add(kYC);
+                    await mERPDbContext.SaveChangesAsync();
+                    transaction.Commit();
+                    return $"Created -{vendor.Id}";
+                }
+
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                  
+                    return "Fail to Created";
+                }
+            }
         }
-
         public async Task<List<VendorResponseModel>> GetAll()
         {
             List<VendorResponseModel> vendorResponseModel = await (from vendor in mERPDbContext.Vendor
@@ -101,7 +116,6 @@ namespace Vendor_Management.BussinessRepository
                                                                        PostalCode = vendor.PostalCode,
                                                                        WebSite = vendor.WebSite == null ? string.Empty : vendor.WebSite,
                                                                        RegisteredAddress = vendor.RegisteredAddress,
-                                                                       VendorRepId = vedorRep.Id,
                                                                        Name = vedorRep.Name,
                                                                        Designation = vedorRep.Designation,
                                                                        PrimaryEmail = vedorRep.PrimaryEmail,
@@ -112,7 +126,6 @@ namespace Vendor_Management.BussinessRepository
                                                                        ReportingHeadName = vedorRep.ReportingHeadName,
                                                                        ManagerEmail = vedorRep.ManagerEmail,
                                                                        ManagerContactNumber = vedorRep.ManagerContactNumber,
-                                                                       KYCId = kyc.Id,
                                                                        PanNumber = kyc.PanNumber,
                                                                        GSTRegistrationNumber = kyc.GSTRegistrationNumber,
                                                                        VAT = kyc.VAT,
@@ -151,67 +164,92 @@ namespace Vendor_Management.BussinessRepository
                                                               IFSCCode = kyc.IFSCCode,
                                                               Name = kyc.Name,
                                                               UPIId = kyc.UPIId,
+                                                              Type = ((Type)kyc.Type).ToString(),
                                                           }).FirstOrDefaultAsync();
             return bankDetails;
         }
 
         public async Task<string> Update(VendorUpdateRequestModel vendorUpdateRequestModel)
         {
-            Vendor vendor = new Vendor
+            using (IDbContextTransaction transaction = mERPDbContext.Database.BeginTransaction())
             {
-                Id = vendorUpdateRequestModel.VendorId,
-                CategoryId = vendorUpdateRequestModel.CategoryId,
-                Company = vendorUpdateRequestModel.Company,
-                CountryId = vendorUpdateRequestModel.CountryId,
-                StateId = vendorUpdateRequestModel.StateId,
-                City = vendorUpdateRequestModel.City,
-                PostalCode = vendorUpdateRequestModel.PostalCode,
-                WebSite = vendorUpdateRequestModel.WebSite,
-                RegisteredAddress = vendorUpdateRequestModel.RegisteredAddress,
-                EnrollmentDate = vendorUpdateRequestModel.EnrollmentDate,
-            };
-            mERPDbContext.Vendor.Update(vendor);
-            await mERPDbContext.SaveChangesAsync();
+                try
+                {
+                    var vendorid = mERPDbContext.Vendor.FirstOrDefault(x => x.Id == vendorUpdateRequestModel.VendorId);
+                    if (vendorid != null)
+                    {
 
-            VendorRepDetails vendorRepDetails = new VendorRepDetails
-            {
-                VendorId = vendorUpdateRequestModel.VendorId,
-                Name = vendorUpdateRequestModel.Name,
-                Designation = vendorUpdateRequestModel.Designation,
-                Department = vendorUpdateRequestModel.Department,
-                PrimaryEmail = vendorUpdateRequestModel.PrimaryEmail,
-                PrimaryContactNumber = vendorUpdateRequestModel.PrimaryContactNumber,
-                AlternativeEmail = vendorUpdateRequestModel.AlternativeEmail,
-                AlternativeContactNumber = vendorUpdateRequestModel.AlternativeContactNumber,
-                ReportingHeadName = vendorUpdateRequestModel.ReportingHeadName,
-                ManagerEmail = vendorUpdateRequestModel.ManagerEmail,
-                ManagerContactNumber = vendorUpdateRequestModel.ManagerContactNumber,
-            };
-            mERPDbContext.VendorRepDetails.Update(vendorRepDetails);
-            await mERPDbContext.SaveChangesAsync();
+                        Vendor vendor = mERPDbContext.Vendor.Where(x => x.Id == vendorUpdateRequestModel.VendorId).FirstOrDefault();
+                        {
 
-            KYC kYC = new KYC
-            {
-                UserId = vendorUpdateRequestModel.VendorId,
-                PanNumber = vendorUpdateRequestModel.PanNumber,
-                GSTRegistrationNumber = vendorUpdateRequestModel.GSTRegistrationNumber,
-                VAT = vendorUpdateRequestModel.VAT,
-                SSIRegistration = vendorUpdateRequestModel.SSIRegistration,
-                BankName = vendorUpdateRequestModel.BankName,
-                BranchName = vendorUpdateRequestModel.Branch,
-                AccountNumber = vendorUpdateRequestModel.AccountNumber,
-                Name = vendorUpdateRequestModel.UserName,
-                IFSCCode = vendorUpdateRequestModel.IFSCCode,
-                UPIId = vendorUpdateRequestModel.UPIId,
-                Reference = vendorUpdateRequestModel.Reference,
-                Type = vendorUpdateRequestModel.Type,
-            };
-            mERPDbContext.KYC.Update(kYC);
-            await mERPDbContext.SaveChangesAsync();
+                            vendor.CategoryId = vendorUpdateRequestModel.CategoryId;
+                            vendor.Company = vendorUpdateRequestModel.Company;
+                            vendor.CountryId = vendorUpdateRequestModel.CountryId;
+                            vendor.StateId = vendorUpdateRequestModel.StateId;
+                            vendor.City = vendorUpdateRequestModel.City;
+                            vendor.PostalCode = vendorUpdateRequestModel.PostalCode;
+                            vendor.WebSite = vendorUpdateRequestModel.WebSite;
+                            vendor.RegisteredAddress = vendorUpdateRequestModel.RegisteredAddress;
+                            vendor.EnrollmentDate = vendorUpdateRequestModel.EnrollmentDate;
+                        };
+                        mERPDbContext.Vendor.Update(vendor);
+                        await mERPDbContext.SaveChangesAsync();
 
-            return $"Updated -{vendor.Id}";
+                        VendorRepDetails vendorRepDetails = mERPDbContext.VendorRepDetails.Where(x => x.VendorId == vendorUpdateRequestModel.VendorId).FirstOrDefault();
+                        {
+                          
+                            vendorRepDetails.Name = vendorUpdateRequestModel.Name;
+                            vendorRepDetails.Designation = vendorUpdateRequestModel.Designation;
+                            vendorRepDetails.Department = vendorUpdateRequestModel.Department;
+                            vendorRepDetails.PrimaryEmail = vendorUpdateRequestModel.PrimaryEmail;
+                            vendorRepDetails.PrimaryContactNumber = vendorUpdateRequestModel.PrimaryContactNumber;
+                            vendorRepDetails.AlternativeEmail = vendorUpdateRequestModel.AlternativeEmail;
+                            vendorRepDetails.AlternativeContactNumber = vendorUpdateRequestModel.AlternativeContactNumber;
+                            vendorRepDetails.ReportingHeadName = vendorUpdateRequestModel.ReportingHeadName;
+                            vendorRepDetails.ManagerEmail = vendorUpdateRequestModel.ManagerEmail;
+                            vendorRepDetails.ManagerContactNumber = vendorUpdateRequestModel.ManagerContactNumber;
+                        };
+                        mERPDbContext.VendorRepDetails.Update(vendorRepDetails);
+                        await mERPDbContext.SaveChangesAsync();
+
+                        KYC kYC = mERPDbContext.KYC.Where(x => x.UserId == vendorUpdateRequestModel.VendorId).FirstOrDefault();
+                        {
+                            kYC.UserId = vendorUpdateRequestModel.VendorId;
+                            kYC.PanNumber = vendorUpdateRequestModel.PanNumber;
+                            kYC.GSTRegistrationNumber = vendorUpdateRequestModel.GSTRegistrationNumber;
+                            kYC.VAT = vendorUpdateRequestModel.VAT;
+                            kYC.SSIRegistration = vendorUpdateRequestModel.SSIRegistration;
+                            kYC.BankName = vendorUpdateRequestModel.BankName;
+                            kYC.BranchName = vendorUpdateRequestModel.Branch;
+                            kYC.AccountNumber = vendorUpdateRequestModel.AccountNumber;
+                            kYC.Name = vendorUpdateRequestModel.UserName;
+                            kYC.IFSCCode = vendorUpdateRequestModel.IFSCCode;
+                            kYC.UPIId = vendorUpdateRequestModel.UPIId;
+                            kYC.Reference = vendorUpdateRequestModel.Reference;
+                            kYC.Type = vendorUpdateRequestModel.Type;
+                        };
+                        mERPDbContext.KYC.Update(kYC);
+                        await mERPDbContext.SaveChangesAsync();
+                        transaction.Commit();
+                        return $"Updated-{vendor.Id}";
+                    }
+                    else
+                    {
+                        return "Can't be Update the Vendor";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return "Fail to Update";
+                }
+
+            }
+
         }
     }
+}
+
     //public void UploadInvoiceFiles(List<IFormFile> files, string LeadID, string CreatedBy, string Dealercode, long invoiceId)
     //{
     //    try
@@ -254,4 +292,4 @@ namespace Vendor_Management.BussinessRepository
 
     //    throw new CustomExpection(Convert.ToString(string.IsNullOrEmpty(ex.Message) ? ex.InnerException.Message : ex.Message), ex.StackTrace, assemblyName, ApplicationLogId.LMS_DocumentControllerId);
     //}}
-}
+

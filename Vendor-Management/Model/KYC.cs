@@ -16,6 +16,6 @@
         public string Reference { get; set; }
         public int UserId { get; set; }
         public int Type { get; set; }
-        public string BankDocumentUpload { get; set; }
+       
     }
 }

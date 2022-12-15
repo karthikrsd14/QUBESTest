@@ -8,6 +8,7 @@ using Vendor_Management.Response;
 using Vendor_Management.VendorManagementContext;
 using Vendor_Management.Model.Enum;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Vendor_Management.BussinessRepository
 {
@@ -22,86 +23,94 @@ namespace Vendor_Management.BussinessRepository
 
         public async Task<string> Created(CustomerRequestModel customerRequestModel)
         {
-            try
+            using (IDbContextTransaction transaction = mERPDbContext.Database.BeginTransaction())
             {
-
-                Customer customerDetails = new Customer
+                try
                 {
 
-                    Name = customerRequestModel.CustomerName,
-                    AlternativeContactNumber = customerRequestModel.AlternativeContactNumber,
-                    AlternativeEmail = customerRequestModel.AlternativeEmailID,
-                    City = customerRequestModel.CustomerCity,
-                    CustomerContactName = customerRequestModel.ContactName,
-                    CountryId = customerRequestModel.CustomerCountryId,
-                    CreditLimit = customerRequestModel.CreditLimit,
-                    PostalCode = customerRequestModel.PostalCode,
-                    PrimaryContactNumber = customerRequestModel.PrimaryContactNumber,
-                    EnrollmentDate = customerRequestModel.EnrollMentDate,
-                    PrimaryEmail = customerRequestModel.PrimaryEmailID,
-                    RegisteredAddress = customerRequestModel.RegisteredAddress,
-                    StateId = customerRequestModel.CustomerStateId,
-                    WebSite = customerRequestModel.WebUrl,
-                    IsBillingsameasShippingAddress = true,
+                    Customer customerDetails = new Customer
+                    {
 
-                };
-                mERPDbContext.Customer.Add(customerDetails);
-                 await mERPDbContext.SaveChangesAsync();
+                        Name = customerRequestModel.CustomerName,
+                        AlternativeContactNumber = customerRequestModel.AlternativeContactNumber,
+                        AlternativeEmail = customerRequestModel.AlternativeEmailID,
+                        City = customerRequestModel.CustomerCity,
+                        CustomerContactName = customerRequestModel.ContactName,
+                        CountryId = customerRequestModel.CustomerCountryId,
+                        CreditLimit = customerRequestModel.CreditLimit,
+                        PostalCode = customerRequestModel.PostalCode,
+                        PrimaryContactNumber = customerRequestModel.PrimaryContactNumber,
+                        EnrollmentDate = customerRequestModel.EnrollMentDate,
+                        PrimaryEmail = customerRequestModel.PrimaryEmailID,
+                        RegisteredAddress = customerRequestModel.RegisteredAddress,
+                        StateId = customerRequestModel.CustomerStateId,
+                        WebSite = customerRequestModel.WebUrl,
+                        IsBillingsameasShippingAddress = true,
 
-                Addresses billingaddress = new Addresses
-                {                   
-                    Address = customerRequestModel.Billingaddress,
-                    City = customerRequestModel.BillingCity,
-                    Country = customerRequestModel.BilllingCountryId,
-                    Name = customerRequestModel.BillingCustomerName,
-                    CustomerId = customerRequestModel.BillingCustomerId,
-                    PhoneNumber = customerRequestModel.BillingPhoneNumber,
-                    PostalCode = customerRequestModel.BillingPostalCode,
-                    State = customerRequestModel.BillingStateId,
-                    IsBillingAddress = true,
-                };
-                mERPDbContext.Addresses.Add(billingaddress);
-                await mERPDbContext.SaveChangesAsync();
+                    };
+                    mERPDbContext.Customer.Add(customerDetails);
+                    await mERPDbContext.SaveChangesAsync();
 
-                Addresses shippingAddress = new Addresses
+                    Addresses billingaddress = new Addresses
+                    {
+
+                        Address = customerRequestModel.Billingaddress,
+                        City = customerRequestModel.BillingCity,
+                        Country = customerRequestModel.BilllingCountryId,
+                        Name = customerRequestModel.BillingCustomerName,
+                        CustomerId = customerDetails.Id,
+                        PhoneNumber = customerRequestModel.BillingPhoneNumber,
+                        PostalCode = customerRequestModel.BillingPostalCode,
+                        State = customerRequestModel.BillingStateId,
+                        IsBillingAddress = true,
+                    };
+                    mERPDbContext.Addresses.Add(billingaddress);
+                    await mERPDbContext.SaveChangesAsync();
+
+
+                    Addresses shippingAddress = new Addresses
+                    {
+
+                        Address = customerRequestModel.Shippingaddress,
+                        City = customerRequestModel.ShippingCity,
+                        Country = customerRequestModel.ShippingCountryId,
+                        Name = customerRequestModel.ShippingCustomerName,
+                        CustomerId = customerDetails.Id,
+                        PhoneNumber = customerRequestModel.ShippingPhoneNumber,
+                        PostalCode = customerRequestModel.ShippingPostalCode,
+                        State = customerRequestModel.ShippingStateId,
+                        IsBillingAddress = true,
+                    };
+                    mERPDbContext.Addresses.Add(shippingAddress);
+                    await mERPDbContext.SaveChangesAsync();
+                    KYC Kyc = new KYC
+                    {
+                        AccountNumber = customerRequestModel.AccountNumber,
+                        BankName = customerRequestModel.BankName,
+                        BranchName = customerRequestModel.BranchName,
+                        GSTRegistrationNumber = customerRequestModel.GSTRegistrationNumber,
+                        IFSCCode = customerRequestModel.IFSCCode,
+                        Name = customerRequestModel.Name,
+                        PanNumber = customerRequestModel.PanNumber,
+                        SSIRegistration = customerRequestModel.SSIRegistration,
+                        Reference = customerRequestModel.Reference,
+                        UPIId = customerRequestModel.UPIId,
+                        VAT = customerRequestModel.VAT,
+                        Type = customerRequestModel.Type,
+                        UserId = customerDetails.Id,
+                    };
+                    mERPDbContext.KYC.Add(Kyc);
+                    await mERPDbContext.SaveChangesAsync();
+                    transaction.Commit();
+                    return $"Created -{customerDetails.Id}";
+                }
+
+                catch (System.Exception ex)
                 {
-                    Address = customerRequestModel.Shippingaddress,
-                    City = customerRequestModel.ShippingCity,
-                    Country = customerRequestModel.ShippingCountryId,
-                    Name = customerRequestModel.ShippingCustomerName,
-                    CustomerId = customerRequestModel.ShippingCustomerId,
-                    PhoneNumber = customerRequestModel.ShippingPhoneNumber,
-                    PostalCode = customerRequestModel.ShippingPostalCode,
-                    State = customerRequestModel.ShippingStateId,
-                    IsBillingAddress = true,
-                };
-                mERPDbContext.Addresses.Add(shippingAddress);
-                 await mERPDbContext.SaveChangesAsync();
-                KYC Kyc = new KYC
-                {
-                    AccountNumber = customerRequestModel.AccountNumber,
-                    BankName = customerRequestModel.BankName,
-                    BranchName = customerRequestModel.BranchName,
-                    GSTRegistrationNumber = customerRequestModel.GSTRegistrationNumber,
-                    IFSCCode = customerRequestModel.IFSCCode,
-                    Name = customerRequestModel.Name,
-                    PanNumber = customerRequestModel.PanNumber,
-                    SSIRegistration = customerRequestModel.SSIRegistration,
-                    Reference = customerRequestModel.Reference,
-                    UPIId = customerRequestModel.UPIId,
-                    VAT = customerRequestModel.VAT,
-                    Type = customerRequestModel.Type,
-                    UserId = customerRequestModel.UserId,   
-                };
-                mERPDbContext.KYC.Add(Kyc);
-                await mERPDbContext.SaveChangesAsync();
-
-                return $"Created -{customerDetails.Id}";
-            }
-            catch (System.Exception ex)
-            {
-
-                throw;
+                    
+                    transaction.Rollback();
+                    return "Fail to Update";
+                }
             }
         }
 
@@ -128,7 +137,7 @@ namespace Vendor_Management.BussinessRepository
                                                                        {
                                                                            CustomerId = customer.Id,
                                                                            CustomerStateId = mERPDbContext.State.Where(x => x.Id == customer.StateId).Select(x => x.Name).FirstOrDefault(),
-                                                                           CustomerCountryId = mERPDbContext.Country.Where(n => n.Id == customer.CountryId).Select(x => x.Name).FirstOrDefault(),
+                                                                           CustomerCountryId = mERPDbContext.Country.Where(n => n.Id == customer.CountryId).Select(n => n.Name).FirstOrDefault(),
                                                                            AccountNumber = kyc.AccountNumber,
                                                                            Billingaddress = address.Address,
                                                                            AlternativeContactNumber = customer.AlternativeContactNumber,
@@ -157,18 +166,17 @@ namespace Vendor_Management.BussinessRepository
                                                                            BillingCustomerId=customer.Id,
                                                                            BillingPostalCode=address.PostalCode,
                                                                            BillingStateId=mERPDbContext.State.Where(x => x.Id == address.State).Select(x => x.Name).FirstOrDefault(),
-                                                                           BilllingCountryId =mERPDbContext.Country.Where(n => n.Id == address.Country).Select(x => x.Name).FirstOrDefault(),
+                                                                           BilllingCountryId =mERPDbContext.Country.Where(n => n.Id == address.Country).Select(n => n.Name).FirstOrDefault(),
                                                                            CustomerCity=address.City,   
                                                                            Shippingaddress=address.Address,
                                                                            ShippingCity=address.City,
                                                                            ShippingStateId = mERPDbContext.State.Where(x => x.Id == address.State).Select(x => x.Name).FirstOrDefault(),
-                                                                           ShippingCountryId = mERPDbContext.Country.Where(n => n.Id == address.Country).Select(x => x.Name).FirstOrDefault(),
-                                                                           ShippingCustomerId=customer.Id,
+                                                                           ShippingCountryId = mERPDbContext.Country.Where(n => n.Id == address.Country).Select(n => n.Name).FirstOrDefault(),
+                                                                           ShippingCustomerId=customer.Id, 
                                                                            ShippingCustomerName=address.Name,
                                                                            ShippingPostalCode=address.PostalCode,   
                                                                            ShippingPhoneNumber=address.PhoneNumber,
-                                                                           UserId=customer.Id,
-                                                                           
+                                                                           UserId=customer.Id, 
                                                                            WebUrl = customer.WebSite,
                                                                            Type = ((Type)kyc.Type).ToString(),
                                                                        }).OrderBy(x => x.CustomerName).ToListAsync();
@@ -208,80 +216,95 @@ namespace Vendor_Management.BussinessRepository
 
         public async Task<string> Update(CustomerUpdateRequestModel customerUpdateRequestModel)
         {
-            Customer customerDetails = new Customer
+            using (IDbContextTransaction transaction = mERPDbContext.Database.BeginTransaction())
             {
-                Name = customerUpdateRequestModel.CustomerName,
-                AlternativeContactNumber = customerUpdateRequestModel.AlternativeContactNumber,
-                AlternativeEmail = customerUpdateRequestModel.AlternativeEmailID,
-                City = customerUpdateRequestModel.CustomerCity,
-                CustomerContactName = customerUpdateRequestModel.ContactName,
-                CountryId = customerUpdateRequestModel.CustomerCountryId,
-                CreditLimit = customerUpdateRequestModel.CreditLimit,
-                PostalCode = customerUpdateRequestModel.PostalCode,
-                PrimaryContactNumber = customerUpdateRequestModel.PrimaryContactNumber,
-                EnrollmentDate = customerUpdateRequestModel.EnrollMentDate,
-                PrimaryEmail = customerUpdateRequestModel.PrimaryEmailID,
-                RegisteredAddress = customerUpdateRequestModel.RegisteredAddress,
-                StateId = customerUpdateRequestModel.CustomerStateId,
-                WebSite = customerUpdateRequestModel.WebUrl,
-                IsBillingsameasShippingAddress=true,
+                try
+                {
+
+                    Customer customerDetails = mERPDbContext.Customer.Where(x => x.Id == customerUpdateRequestModel.CustomerId).FirstOrDefault();
+                    {
+                        customerDetails.Name = customerUpdateRequestModel.CustomerName;
+                        customerDetails.AlternativeContactNumber = customerUpdateRequestModel.AlternativeContactNumber;
+                customerDetails.AlternativeEmail = customerUpdateRequestModel.AlternativeEmailID;
+                customerDetails.City = customerUpdateRequestModel.CustomerCity;
+                customerDetails.CustomerContactName = customerUpdateRequestModel.ContactName;
+                customerDetails.CountryId = customerUpdateRequestModel.CustomerCountryId;
+                customerDetails.CreditLimit = customerUpdateRequestModel.CreditLimit;
+                customerDetails.PostalCode = customerUpdateRequestModel.PostalCode;
+                customerDetails.PrimaryContactNumber = customerUpdateRequestModel.PrimaryContactNumber;
+                customerDetails.EnrollmentDate = customerUpdateRequestModel.EnrollMentDate;
+                customerDetails.PrimaryEmail = customerUpdateRequestModel.PrimaryEmailID;
+                customerDetails.RegisteredAddress = customerUpdateRequestModel.RegisteredAddress;
+                customerDetails.StateId = customerUpdateRequestModel.CustomerStateId;
+                customerDetails.WebSite = customerUpdateRequestModel.WebUrl;
+                
 
             };
-            mERPDbContext.Customer.Update(customerDetails);
-            await mERPDbContext.SaveChangesAsync();
+                    mERPDbContext.Customer.Update(customerDetails);
+                    await mERPDbContext.SaveChangesAsync();
 
-            Addresses billingaddress = new Addresses
-            {
-                Address = customerUpdateRequestModel.Billingaddress,
-                City = customerUpdateRequestModel.BillingCity,
-                Country = customerUpdateRequestModel.BilllingCountryId,
-                Name = customerUpdateRequestModel.BillingCustomerName,
-                CustomerId = customerUpdateRequestModel.CustomerId,
-                PhoneNumber = customerUpdateRequestModel.BillingPhoneNumber,
-                PostalCode = customerUpdateRequestModel.PostalCode,
-                State = customerUpdateRequestModel.BillingStateId,
-                IsBillingAddress = true,
-               
-            };
-            mERPDbContext.Addresses.Add(billingaddress);
-           // await mERPDbContext.SaveChangesAsync();
+                    Addresses billingaddress = mERPDbContext.Addresses.Where(x => x.CustomerId == customerUpdateRequestModel.CustomerId).FirstOrDefault();
+                    {
+                        billingaddress.Address = customerUpdateRequestModel.Billingaddress;
+                        billingaddress.City = customerUpdateRequestModel.BillingCity;
+                        billingaddress.Country = customerUpdateRequestModel.BilllingCountryId;
+                        billingaddress.Name = customerUpdateRequestModel.BillingCustomerName;
+                        billingaddress.CustomerId = customerUpdateRequestModel.CustomerId;
+                        billingaddress.PhoneNumber = customerUpdateRequestModel.BillingPhoneNumber;
+                        billingaddress.PostalCode = customerUpdateRequestModel.PostalCode;
+                        billingaddress.State = customerUpdateRequestModel.BillingStateId;
+                        billingaddress.IsBillingAddress = true;
+
+                    };
+                    mERPDbContext.Addresses.Update(billingaddress);
+                     await mERPDbContext.SaveChangesAsync();
 
 
-            Addresses shippingAddress = new Addresses
-            {
-                Address = customerUpdateRequestModel.Shippingaddress,
-                City = customerUpdateRequestModel.ShippingCity,
-                Country = customerUpdateRequestModel.ShippingCountryId,
-                Name = customerUpdateRequestModel.ShippingCustomerName,
-                CustomerId = customerUpdateRequestModel.CustomerId,
-                PhoneNumber = customerUpdateRequestModel.ShippingPhoneNumber,
-                PostalCode = customerUpdateRequestModel.PostalCode,
-                State = customerUpdateRequestModel.ShippingStateId,
-                IsBillingAddress= true,
-            };
-            mERPDbContext.Addresses.Add(shippingAddress);
-            await mERPDbContext.SaveChangesAsync();
-            KYC Kyc = new KYC
-            {
-                AccountNumber = customerUpdateRequestModel.AccountNumber,
-                BankName = customerUpdateRequestModel.BankName,
-                BranchName = customerUpdateRequestModel.BranchName,
-                GSTRegistrationNumber = customerUpdateRequestModel.GSTRegistrationNumber,
-                IFSCCode = customerUpdateRequestModel.IFSCCode,
-                Name = customerUpdateRequestModel.Name,
-                PanNumber = customerUpdateRequestModel.PanNumber,
-                SSIRegistration = customerUpdateRequestModel.SSIRegistration,
-                Reference = customerUpdateRequestModel.Reference,
-                UPIId = customerUpdateRequestModel.UPIId,
-                VAT = customerUpdateRequestModel.VAT,
-                Type = customerUpdateRequestModel.Type,
-               
-            };
-            mERPDbContext.KYC.Add(Kyc);
-            await mERPDbContext.SaveChangesAsync();
+                    Addresses shippingAddress = mERPDbContext.Addresses.Where(x => x.CustomerId == customerUpdateRequestModel.CustomerId).FirstOrDefault();
+                    {
+                        shippingAddress.Address = customerUpdateRequestModel.Shippingaddress;
+                        shippingAddress.City = customerUpdateRequestModel.ShippingCity;
+                        shippingAddress.Country = customerUpdateRequestModel.ShippingCountryId;
+                        shippingAddress.Name = customerUpdateRequestModel.ShippingCustomerName;
+                        shippingAddress.CustomerId = customerUpdateRequestModel.CustomerId;
+                        shippingAddress.PhoneNumber = customerUpdateRequestModel.ShippingPhoneNumber;
+                        shippingAddress.PostalCode = customerUpdateRequestModel.PostalCode;
+                        shippingAddress.State = customerUpdateRequestModel.ShippingStateId;
+                        shippingAddress.IsBillingAddress = true;
+                    };
+                    mERPDbContext.Addresses.Update(shippingAddress);
+                    await mERPDbContext.SaveChangesAsync();
+                    KYC Kyc = new KYC
+                    {
+                        AccountNumber = customerUpdateRequestModel.AccountNumber,
+                        BankName = customerUpdateRequestModel.BankName,
+                        BranchName = customerUpdateRequestModel.BranchName,
+                        GSTRegistrationNumber = customerUpdateRequestModel.GSTRegistrationNumber,
+                        IFSCCode = customerUpdateRequestModel.IFSCCode,
+                        Name = customerUpdateRequestModel.Name,
+                        PanNumber = customerUpdateRequestModel.PanNumber,
+                        SSIRegistration = customerUpdateRequestModel.SSIRegistration,
+                        Reference = customerUpdateRequestModel.Reference,
+                        UPIId = customerUpdateRequestModel.UPIId,
+                        VAT = customerUpdateRequestModel.VAT,
+                        Type = customerUpdateRequestModel.Type,
 
-            return $"Created -{customerDetails.Id}";
+                    };
+                    mERPDbContext.KYC.Update(Kyc);
+                    await mERPDbContext.SaveChangesAsync();
+                    transaction.Commit();
+                    return $"Update -{customerDetails.Id}";
+                }
 
-        }
+                catch (System.Exception ex)
+                {
+
+
+                    transaction.Rollback();
+                    return "Fail to Update";
+                }
+
+
+            } }
     }
 }

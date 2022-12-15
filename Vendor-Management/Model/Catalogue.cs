@@ -10,6 +10,7 @@
         public int Rate { get; set; }
         public string Currency { get; set; }
         public int GST { get; set; }
-        public int VendorId { get; set; }
+        public bool IsActive { get; set; }
+
     }
 }

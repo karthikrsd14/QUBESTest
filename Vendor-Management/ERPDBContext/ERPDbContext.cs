@@ -21,5 +21,6 @@ namespace Vendor_Management.VendorManagementContext
         public DbSet<Addresses> Addresses { get; set; }
         public DbSet<LineItems> LineItems { get; set; }
         public DbSet<VendorRequest> VendorRequest { get; set; }
+        public DbSet<User> User { get; set; }
     }
 }

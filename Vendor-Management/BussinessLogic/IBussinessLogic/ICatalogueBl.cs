@@ -11,5 +11,6 @@ namespace Vendor_Management.BussinessLogic.IBussinessLogic
         Task<string> Update(CatalogueRequestModel catalogueRequestModel);
         Task<List<CatalogueResponseModel>> GetCatalougeByUserId(int userId);
         Task<List<CatalogueResponseModel>> GetCatalougeByCriteria(int userId, string? criteria);
+        Task<bool> DeleteCatalouge(int Id);
     }
 }

@@ -16,6 +16,7 @@ namespace Vendor_Management.Migrations
         {
             
             Create.Table("LineItems")
+
                .WithColumn("Id").AsInt32().NotNullable().Identity().PrimaryKey()
                .WithColumn("ItemsId").AsInt32().NotNullable().ForeignKey("Catalogue", "Id")
                .WithColumn("UOM").AsInt32()

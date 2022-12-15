@@ -61,7 +61,7 @@ namespace Vendor_Management.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] CustomerUpdateRequestModel CustomerUpdateRequestModel)
+        public async Task<IActionResult> Update([FromBody] CustomerUpdateRequestModel CustomerUpdateRequestModel ,int customerId)
         {
             var response = await mCustomerBl.Update(CustomerUpdateRequestModel);
             if (response != null)

@@ -156,3 +156,13 @@ C:\Users\LTP-7\OneDrive\Desktop\DataSheet\ERB\Vendor-Management\obj\Debug\net5.0
 C:\Users\LTP-7\OneDrive\Desktop\DataSheet\ERB\Vendor-Management\obj\Debug\net5.0\ERP.pdb
 C:\Users\LTP-7\OneDrive\Desktop\DataSheet\ERB\Vendor-Management\obj\Debug\net5.0\ERP.genruntimeconfig.cache
 C:\Users\LTP-7\OneDrive\Desktop\DataSheet\ERB\Vendor-Management\obj\Debug\net5.0\ref\ERP.dll
+C:\Users\LTP-7\source\repos\ERB\Vendor-Management\obj\Debug\net5.0\ERP.csproj.AssemblyReference.cache
+C:\Users\LTP-7\source\repos\ERB\Vendor-Management\obj\Debug\net5.0\ERP.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\LTP-7\source\repos\ERB\Vendor-Management\obj\Debug\net5.0\ERP.AssemblyInfoInputs.cache
+C:\Users\LTP-7\source\repos\ERB\Vendor-Management\obj\Debug\net5.0\ERP.AssemblyInfo.cs
+C:\Users\LTP-7\source\repos\ERB\Vendor-Management\obj\Debug\net5.0\ERP.csproj.CoreCompileInputs.cache
+C:\Users\LTP-7\source\repos\ERB\Vendor-Management\obj\Debug\net5.0\ERP.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\LTP-7\source\repos\ERB\Vendor-Management\obj\Debug\net5.0\ERP.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\LTP-7\source\repos\ERB\Vendor-Management\obj\Debug\net5.0\ERP.dll
+C:\Users\LTP-7\source\repos\ERB\Vendor-Management\obj\Debug\net5.0\refint\ERP.dll
+C:\Users\LTP-7\source\repos\ERB\Vendor-Management\obj\Debug\net5.0\ERP.pdb
